@@ -22,7 +22,7 @@ s=Service(ChromeDriverManager().install())
 browser = webdriver.Chrome(service=s, options=options)
 browser.set_page_load_timeout(120)
 
-wrong_domain=[]
+
 
 
 def login(domain,right_code,browser):
@@ -41,7 +41,7 @@ def login(domain,right_code,browser):
     compare_result=compare_banner(banner)
     if compare_result != "Success" : 
         wrong_domain.append(domain)
-        return f"{domain},{compare_result}"
+        return f"{domain}, {compare_result}, Now:{now_banner}."
 
     temp=browser.find_element(By.XPATH,'//div[@class="login-wrapper"]/img[2]')
     temp.click()
@@ -50,36 +50,42 @@ def login(domain,right_code,browser):
     code=temp.get_attribute('value')
     if code != right_code:
         wrong_domain.append(domain)
-        return f"{domain},The code is wrong."
+        return f"{domain}, The code is wrong, Wrong code: {code}, Correct: {right_code}."
     
-    return f"{domain},Completed"
+    return f"{domain}, Completed."
 
 
 def compare_banner(banner):
 
     banner_list=list(enumerate(["active electronic","live","qpgame","cpgame","hunter","sports","esports"]))
     
+    
     for index,value in banner_list:
         
-        # print("item "+value)
-        # print(banner[index].get_attribute('class'))        
+        now_banner.append(banner[index].get_attribute('class'))     
+        
         if banner[index].get_attribute('class') != "item "+value : 
             return "The order of the buttons is wrong."
 
     else : return "Success"
 
 if __name__ == "__main__":
+    wrong_domain=[]
+    
 
     with open("domain.txt") as f : 
         dlist=[tuple(x.strip().split(' ')) for x in f.readlines()]
 
     for dm,right_code in dlist:
+        now_banner=[]
         try : 
             print(login(dm,right_code,browser))
         except TimeoutException : 
             print(f"{dm} check timeout.")
             wrong_domain.append(dm)
             continue
+        except : 
+            print(f"{dm} Something wrong")
     print("========================================")
     print(f"Wrong domain : {len(wrong_domain)}")
     print(wrong_domain)
