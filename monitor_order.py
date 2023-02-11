@@ -59,7 +59,6 @@ def compare_banner(banner):
 
     banner_list=list(enumerate(["active electronic","live","qpgame","cpgame","hunter","sports","esports"]))
     
-    
     for index,value in banner_list:
         
         now_banner.append(banner[index].get_attribute('class'))     
@@ -84,13 +83,11 @@ if __name__ == "__main__":
             print(f"{dm} check timeout.")
             wrong_domain.append(dm)
             continue
-        except : 
+        except :
+            wrong_domain.append(dm) 
             print(f"{dm} Something wrong")
+            continue
     print("========================================")
     print(f"Wrong domain : {len(wrong_domain)}")
     print(wrong_domain)
     print("\n")
-        
-
-
-
