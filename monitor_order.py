@@ -57,13 +57,14 @@ def login(domain,right_code,browser):
 
 def compare_banner(banner):
 
-    banner_list=list(enumerate(["active electronic","live","qpgame","cpgame","hunter","sports","esports"]))
+    banner_list=list(enumerate(["electronic","live","qpgame","cpgame","hunter","sports","esports"]))
     
     for index,value in banner_list:
         
-        now_banner.append(banner[index].get_attribute('class'))     
+        temp_banner=banner[index].get_attribute('class').split(" ")[-1]
+        now_banner.append(temp_banner)     
         
-        if banner[index].get_attribute('class') != "item "+value : 
+        if temp_banner != value : 
             return "The order of the buttons is wrong."
 
     else : return "Success"
