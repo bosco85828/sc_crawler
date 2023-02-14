@@ -76,18 +76,22 @@ if __name__ == "__main__":
     with open("domain.txt") as f : 
         dlist=[tuple(x.strip().split(' ')) for x in f.readlines()]
 
-    for dm,right_code in dlist:
-        now_banner=[]
-        try : 
-            print(login(dm,right_code,browser))
-        except TimeoutException : 
-            print(f"{dm} check timeout.")
-            wrong_domain.append(dm)
-            continue
-        except :
-            wrong_domain.append(dm) 
-            print(f"{dm} Something wrong")
-            continue
+    try:
+        for dm,right_code in dlist:
+            now_banner=[]
+            try : 
+                print(login(dm,right_code,browser))
+            except TimeoutException : 
+                print(f"{dm} check timeout.")
+                wrong_domain.append(dm)
+                continue
+            except :
+                wrong_domain.append(dm) 
+                print(f"{dm} Something wrong")
+                continue
+    except ValueError : 
+        raise ValueError("Please check the domain.txt format.")
+
     print("========================================")
     print(f"Wrong domain : {len(wrong_domain)}")
     print(wrong_domain)
