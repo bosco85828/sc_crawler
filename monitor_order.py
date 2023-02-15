@@ -17,7 +17,14 @@ from selenium.webdriver.common.keys import Keys
 
 options = Options()
 options.add_argument("--disable-notifications")  
-options.add_argument("--headless") 
+options.add_argument("--headless")
+options.add_argument('--disable-gpu')
+options.add_argument('--no-sandbox')
+options.add_argument('blink-settings=imagesEnabled=false')
+options.add_argument('--disable-dev-shm-usage')
+
+# options.add_argument("--disable-notifications")  
+# options.add_argument("--headless") 
 s=Service(ChromeDriverManager().install())
 browser = webdriver.Chrome(service=s, options=options)
 browser.set_page_load_timeout(120)
